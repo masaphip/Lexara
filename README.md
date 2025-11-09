@@ -1,6 +1,6 @@
 # 🌐 Lexara – Lex Nusantara Divorce Rights Calculator
 
-**Lextara** berasal dari kata **Lex Nusantara**, yang berarti *Hukum Nusantara*.  
+**Lexara** berasal dari kata **Lex Nusantara**, yang berarti *Hukum Nusantara*.  
 Platform ini memuat **kalkulator penghitungan hak pasca perceraian** yang meliputi:
 
 - 💍 **Nafkah Iddah**  
