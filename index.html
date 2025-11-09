@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Hak Pasca Perceraian Berbasis Jurimetri — LEXARA Futuristik</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============ LEXARA FUTURISTIC DARK THEME ============ */
+:root {
+  --bg1:#030c08;
+  --bg2:#052c1b;
+  --neon:#18ffb2;
+  --gold:#ffd24d;
+  --muted:#b4d3c6;
+  --panel:rgba(255,255,255,0.05);
+  --radius:16px;
+  --shadow:0 10px 40px rgba(0,0,0,0.7);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  background:radial-gradient(circle at 20% 20%,var(--bg2),var(--bg1) 80%);
+  font-family:'Poppins',system-ui;
+  color:#eafff6;
+  display:flex;justify-content:center;align-items:flex-start;
+  padding:28px 14px;overflow-x:hidden;
+}
+.app{width:100%;max-width:1100px;display:grid;grid-template-columns:260px 1fr;gap:24px;}
+.aside{
+  background:linear-gradient(145deg,rgba(30,255,155,0.06),rgba(255,255,255,0.02));
+  border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);
+  backdrop-filter:blur(20px);
+}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.scale{
+  width:64px;height:64px;border-radius:14px;
+  background:linear-gradient(160deg,var(--gold),#e2b932);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cinzel Decorative';font-weight:900;color:#0a0a0a;
+  box-shadow:0 0 20px rgba(255,210,77,0.25);
+}
+.brand{color:var(--gold);font-weight:700;font-size:15px;line-height:1.3}
+.menu{display:flex;flex-direction:column;gap:8px}
+.tab-btn{
+  background:transparent;border:0;color:var(--muted);font-weight:700;
+  text-align:left;padding:10px 12px;border-radius:10px;cursor:pointer;
+  transition:all .25s;
+}
+.tab-btn:hover{color:var(--neon);transform:translateX(4px)}
+.tab-btn.active{
+  background:linear-gradient(90deg,var(--neon),#0cd982);
+  color:#03150c;box-shadow:0 0 20px rgba(30,255,155,0.3);
+}
+.card{
+  background:var(--panel);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:24px;
+  backdrop-filter:blur(16px);
+  transition:all .4s ease;
+}
+.header-top{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.header-title{
+  font-family:'Cinzel Decorative';font-size:48px;font-weight:900;
+  color:var(--neon);text-shadow:0 0 25px rgba(30,255,155,0.5);
+  letter-spacing:1.5px;position:relative;
+}
+.header-title::after{
+  content:"";position:absolute;bottom:-8px;left:0;width:100%;height:2px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+}
+.header-sub{color:var(--muted);font-size:14px}
+label{display:block;margin-bottom:6px;font-weight:700;color:var(--muted)}
+.input,select,input[type=text],input[type=number]{
+  width:100%;padding:10px 12px;border-radius:10px;
+  border:1px solid rgba(255,255,255,0.06);
+  background:rgba(255,255,255,0.07);color:#fff;font-size:14px;
+  transition:all .25s;
+}
+.input:focus{border-color:var(--neon);box-shadow:0 0 10px rgba(30,255,155,0.4);outline:none}
+.range{width:100%;accent-color:var(--gold)}
+.btn{
+  background:linear-gradient(90deg,var(--gold),#ffb700);
+  border:0;border-radius:10px;color:#03150c;font-weight:800;
+  padding:10px 14px;cursor:pointer;
+  box-shadow:0 0 20px rgba(255,210,77,0.25);transition:all .3s;
+}
+.btn:hover{
+  transform:translateY(-3px) scale(1.03);
+  box-shadow:0 0 30px rgba(255,210,77,0.45);
+}
+.result{
+  margin-top:12px;padding:14px;border-radius:10px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+}
+.naf{
+  text-align:center;color:var(--gold);font-weight:800;font-size:20px;
+  text-shadow:0 0 12px rgba(255,210,77,0.4);
+}
+.tab-content{display:none;opacity:0;transform:translateY(10px);transition:opacity .4s ease,transform .4s ease;}
+.tab-content.show{display:block;opacity:1;transform:translateY(0)}
+.mutah-subbtn.active{
+  background:linear-gradient(90deg,var(--neon),#0cd982);
+  color:#03150c;box-shadow:0 0 18px rgba(30,255,155,0.3);
+}
+@media(max-width:880px){
+  .app{grid-template-columns:1fr;}
+  .aside{order:2;flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between;}
+  .menu{flex-direction:row;flex-wrap:wrap;gap:6px}
+  .card{order:1;margin-bottom:16px}
+  .header-title{font-size:36px;text-align:center}
+}
+/* === Perbaikan tampilan input kenaikan per tahun === */
+#kenaikanNum {
+  width: 70px !important;
+  text-align: center;
+  color: var(--gold) !important;
+  background-color: rgba(0,0,0,0.5);
+  font-weight: 700;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+#kenaikan {
+  flex: 1 1 auto;
+  min-width: 120px;
+}
+
+/* === FIXES for better contrast on laptop view === */
+select {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  color: var(--gold) !important;
+  font-weight: 600;
+}
+select option {
+  background-color: #04150c;
+  color: #eafff6;
+}
+input[type=range] {
+  accent-color: var(--gold);
+  height: 6px;
+}
+input[type=number].small {
+  color: var(--gold);
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+label {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+
+/* === Perbaikan tambahan agar angka persen terlihat jelas === */
+#kenaikanNum {
+  color: var(--gold) !important;       /* teks jadi emas terang */
+  background-color: rgba(0, 0, 0, 0.6); /* latar sedikit lebih gelap */
+  font-weight: 700;                     /* angka lebih tebal */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+</style>
+</head>
+
+<body>
+<div class="app">
+  <!-- Sidebar -->
+  <aside class="aside">
+    <div class="logo">
+      <div class="scale" aria-hidden="true">
+  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2v2" stroke="#052815" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M5 10h14" stroke="#052815" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M7 10l-2 6h6" stroke="#052815" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M17 10l2 6h-6" stroke="#052815" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="7" cy="17" r="2" fill="#052815"/>
+    <circle cx="17" cy="17" r="2" fill="#052815"/>
+  </svg>
+</div>
+
+      <div>
+        <div class="brand">Hak Pasca Perceraian Berbasis Jurimetri</div>
+        <div style="font-size:12px;color:var(--muted)">LEXARA (Lex Nusantara)</div>
+      </div>
+    </div>
+    <nav class="menu">
+      <button class="tab-btn active" data-tab="iddah">Nafkah Iddah</button>
+      <button class="tab-btn" data-tab="anak">Nafkah Anak</button>
+      <button class="tab-btn" data-tab="mutah">Mut’ah</button>
+      <button class="tab-btn" data-tab="madliyah">Nafkah Madliyah</button>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <main class="card">
+    <div class="header-top">
+      <div>
+        <div class="header-title">LEXARA</div>
+        <div class="header-sub">Where Law Meets Logic</div>
+      </div>
+    </div>
+
+    <!-- TAB: Iddah -->
+    <section id="tab-iddah" class="tab-content show" aria-hidden="false">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <h2 style="margin:0;font-family:'Cinzel Decorative',serif;color:var(--metal-green);font-size:18px">Nafkah Iddah</h2>
+          <div class="note">Pastikan total persen = 100% untuk hasil valid</div>
+        </div>
+      </div>
+
+      <div class="row control-group" style="margin-top:12px">
+        <div class="col">
+          <label for="penghasilan">Total Penghasilan Suami (Rp)</label>
+          <input id="penghasilan" class="input" type="text" placeholder="Contoh: 5.000.000">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col control-group">
+          <label>Suami (%)</label>
+          <input id="suami" class="range" type="range" min="0" max="100" value="35" oninput="syncPercent('suami')">
+        </div>
+        <div style="width:96px">
+          <label>&nbsp;</label>
+          <input id="suamiNum" class="input small" type="number" min="0" max="100" value="35" oninput="syncSlider('suami')">%
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col control-group">
+          <label>Istri (%)</label>
+          <input id="istri" class="range" type="range" min="0" max="100" value="35" oninput="syncPercent('istri')">
+        </div>
+        <div style="width:96px">
+          <label>&nbsp;</label>
+          <input id="istriNum" class="input small" type="number" min="0" max="100" value="35" oninput="syncSlider('istri')">%
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col control-group">
+          <label>Anak (%)</label>
+          <input id="anak" class="range" type="range" min="0" max="100" value="20" oninput="syncPercent('anak')">
+        </div>
+        <div style="width:96px">
+          <label>&nbsp;</label>
+          <input id="anakNum" class="input small" type="number" min="0" max="100" value="20" oninput="syncSlider('anak')">%
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col control-group">
+          <label>Saving (%)</label>
+          <input id="saving" class="range" type="range" min="0" max="100" value="10" oninput="syncPercent('saving')">
+        </div>
+        <div style="width:96px">
+          <label>&nbsp;</label>
+          <input id="savingNum" class="input small" type="number" min="0" max="100" value="10" oninput="syncSlider('saving')">%
+        </div>
+      </div>
+
+      <div class="row" style="align-items:center;margin-top:12px">
+        <div style="flex:1">
+          <div id="warningText" class="note" style="color:#ff6b6b;display:none">⚠️ Total persentase belum 100%</div>
+        </div>
+        <div style="width:220px">
+          <button class="btn" onclick="hitungPembagian()" style="width:100%">Hitung Nafkah Iddah</button>
+        </div>
+      </div>
+
+      <div id="hasil" class="result" aria-live="polite" style="margin-top:14px"></div>
+      <div id="nafkahIddah" class="naf" aria-live="polite"></div>
+    </section>
+
+    <!-- TAB: Anak -->
+    <section id="tab-anak" class="tab-content" aria-hidden="true">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <h2 style="margin:0;font-family:'Cinzel Decorative',serif;color:var(--metal-green);font-size:18px">Nafkah Anak</h2>
+          <div class="note">Proyeksi — tampilkan nafkah bulan pertama tiap tahun</div>
+        </div>
+      </div>
+
+      <div class="row control-group" style="margin-top:12px">
+        <div class="col">
+          <label><input type="checkbox" id="manualAnak" onchange="toggleManualAnak()"> Input Manual Nominal Nafkah Anak</label>
+          <input id="nafkahAnak" class="input" type="text" readonly value="0" placeholder="Terisi otomatis dari Iddah jika sudah dihitung">
+        </div>
+
+        <div style="width:200px; display:flex; flex-direction:column; justify-content:flex-end;">
+          <label>Kenaikan per Tahun (%)</label>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <input id="kenaikan" type="range" min="0" max="50" value="10" oninput="syncPercent('kenaikan')" style="flex:1">
+            <input id="kenaikanNum" type="number" min="0" max="50" value="10" oninput="syncSlider('kenaikan')" class="input small">%
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="align-items:center;margin-top:10px">
+        <div style="width:160px">
+          <label>Jumlah Tahun Proyeksi</label>
+          <input id="tahun" class="input" type="number" value="5" min="1">
+        </div>
+        <div style="flex:1"></div>
+        <div style="width:180px">
+          <label>&nbsp;</label>
+          <button class="btn" onclick="hitungNafkahAnak()" style="width:100%">Hitung Proyeksi</button>
+        </div>
+      </div>
+
+      <div id="hasilAnak" class="result" style="margin-top:12px"></div>
+    </section>
+
+    <!-- TAB: Mut'ah (with two mutah sub-tabs) -->
+    <section id="tab-mutah" class="tab-content" aria-hidden="true">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <h2 style="margin:0;font-family:'Cinzel Decorative',serif;color:var(--metal-green);font-size:18px">Mut’ah</h2>
+          <div class="note">Mut'ah 1 (rumus lama) & Mut'ah 2 (rumus baru)</div>
+        </div>
+      </div>
+
+      <!-- sub-tabs -->
+      <div class="mutah-tabs">
+        <button class="mutah-subbtn active" data-sub="m1">Mut'ah 1</button>
+        <button class="mutah-subbtn" data-sub="m2">Mut'ah 2</button>
+      </div>
+
+      <!-- Mut'ah 1 panel (rumus lama: M = P * ((F + 0.1*T) - K)) -->
+      <div id="m1" class="mutah-panel show" style="margin-top:12px">
+        <div class="row control-group">
+          <div class="col">
+            <label><input id="manualPenghasilanMutah" type="checkbox" onchange="togglePenghasilanMutah()"> Input Manual Penghasilan Suami</label>
+            <input id="p" type="text" class="input" placeholder="Contoh: 5.000.000" readonly oninput="formatInputRupiah(this)">
+          </div>
+
+          <div style="width:160px">
+            <label>Lama Perkawinan (T)</label>
+            <select id="t" class="input" onchange="rekomendasiFMutah()"></select>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px">
+          <div style="width:200px">
+            <label>Faktor Kelayakan (F)</label>
+            <select id="f" class="input">
+              <option value="">-- Pilih F --</option>
+              <option value="1.0">1.0</option><option value="1.1">1.1</option><option value="1.2">1.2</option><option value="1.3">1.3</option>
+              <option value="1.4">1.4</option><option value="1.5">1.5</option><option value="1.6">1.6</option><option value="1.7">1.7</option>
+              <option value="1.8">1.8</option><option value="1.9">1.9</option><option value="2.0">2.0</option>
+            </select>
+          </div>
+
+          <div style="width:260px">
+            <label>Faktor Pengurang (K)</label>
+            <select id="k" class="input">
+              <option value="">-- Pilih K --</option>
+              <option value="0.0">0,0 – Tanpa kesalahan</option>
+              <option value="0.25">0,25 – Kesalahan ringan</option>
+              <option value="0.50">0,50 – Kesalahan sedang</option>
+              <option value="0.75">0,75 – Kesalahan berat</option>
+              <option value="1.0">1,0 – Kesalahan sangat berat</option>
+            </select>
+          </div>
+
+          <div style="flex:1"></div>
+        </div>
+
+        <div class="row" style="align-items:center;margin-top:12px">
+          <div style="flex:1" id="rekomendasiF1" class="note"></div>
+          <div style="width:180px"><label>&nbsp;</label><button class="btn" onclick="hitungMutah1()" style="width:100%">Hitung Mut'ah 1</button></div>
+        </div>
+
+        <div id="hasilMutah1" class="result" style="margin-top:12px"></div>
+        <div id="rumusMutah1" style="margin-top:8px;color:var(--muted);font-size:13px"></div>
+      </div>
+
+      <!-- Mut'ah 2 panel (rumus baru: M = P * ((F + 0.1*T + A) - K)) -->
+      <div id="m2" class="mutah-panel" style="margin-top:12px">
+        <div class="row control-group">
+          <div class="col">
+            <label><input id="manualPenghasilanMutah2" type="checkbox" onchange="togglePenghasilanMutah2()"> Input Manual Penghasilan Suami</label>
+            <input id="p2" type="text" class="input" placeholder="Contoh: 5.000.000" readonly oninput="formatInputRupiah(this)">
+          </div>
+
+          <div style="width:160px">
+            <label>Lama Perkawinan (T)</label>
+            <select id="t2" class="input" onchange="rekomendasiFMutah2()"></select>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px">
+          <div style="width:160px">
+            <label>Faktor Kelayakan (F)</label>
+            <select id="f2" class="input">
+              <option value="">-- Pilih F --</option>
+              <option value="1.0">1.0</option><option value="1.1">1.1</option><option value="1.2">1.2</option><option value="1.3">1.3</option>
+              <option value="1.4">1.4</option><option value="1.5">1.5</option><option value="1.6">1.6</option><option value="1.7">1.7</option>
+              <option value="1.8">1.8</option><option value="1.9">1.9</option><option value="2.0">2.0</option>
+            </select>
+          </div>
+
+          <div style="width:160px">
+            <label>Status Kehamilan & Anak (A)</label>
+            <select id="a2" class="input">
+              <option value="">-- Pilih Status --</option>
+              <option value="0.0">0,0 – Tidak pernah hamil</option>
+              <option value="0.1">0,1 – Pernah hamil tapi keguguran</option>
+              <option value="0.2">0,2 – Memiliki 1–2 anak</option>
+              <option value="0.3">0,3 – Memiliki lebih dari 2 anak</option>
+            </select>
+          </div>
+
+          <div style="width:200px">
+            <label>Faktor Pengurang (K)</label>
+            <select id="k2" class="input">
+              <option value="">-- Pilih K --</option>
+              <option value="0.0">0,0 – Tanpa kesalahan</option>
+              <option value="0.25">0,25 – Kesalahan ringan</option>
+              <option value="0.50">0,50 – Kesalahan sedang</option>
+              <option value="0.75">0,75 – Kesalahan berat</option>
+              <option value="1.0">1,0 – Kesalahan sangat berat</option>
+            </select>
+          </div>
+
+          <div style="flex:1"></div>
+        </div>
+
+        <div class="row" style="align-items:center;margin-top:12px">
+          <div style="flex:1" id="rekomendasiF2" class="note"></div>
+          <div style="width:180px"><label>&nbsp;</label><button class="btn" onclick="hitungMutah2()" style="width:100%">Hitung Mut'ah 2</button></div>
+        </div>
+
+        <div id="hasilMutah2" class="result" style="margin-top:12px"></div>
+        <div id="rumusMutah2" style="margin-top:8px;color:var(--muted);font-size:13px"></div>
+      </div>
+
+    </section>
+
+    <!-- TAB: Madliyah -->
+    <section id="tab-madliyah" class="tab-content" aria-hidden="true">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <h2 style="margin:0;font-family:'Cinzel Decorative',serif;color:var(--metal-green);font-size:18px">Nafkah Madliyah</h2>
+          <div class="note">Kompensasi karena kelalaian</div>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:12px">
+        <div class="col control-group">
+          <label>Hak Istri (dari Nafkah Iddah)</label>
+          <input id="hakIstriMadliyah" class="input" type="text" readonly>
+        </div>
+        <div style="width:160px">
+          <label>Jumlah Bulan</label>
+          <input id="bulanMadliyah" class="input" type="number" min="1" placeholder="Bulan">
+        </div>
+        <div style="width:160px">
+          <label>&nbsp;</label>
+          <button class="btn" onclick="hitungMadliyah()" style="width:100%">Hitung Madliyah</button>
+        </div>
+      </div>
+
+      <div id="hasilMadliyah" class="result" style="margin-top:12px"></div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+/* ------------------ Helpers ------------------ */
+function onlyDigits(s){ return (s||'').toString().replace(/[^\d]/g,''); }
+function parseRupiah(s){ return parseFloat( onlyDigits(String(s)) ) || 0; }
+function formatRupiah(n){ n = Number(n) || 0; return "Rp" + n.toLocaleString('id-ID',{minimumFractionDigits:2, maximumFractionDigits:2}); }
+function terbilang(input){
+  let angka = Math.floor(Math.abs(Number(input) || 0));
+  if(angka===0) return "nol";
+  const satu=["","satu","dua","tiga","empat","lima","enam","tujuh","delapan","sembilan","sepuluh","sebelas"];
+  function bawah1000(n){
+    let out=""; const ratus=Math.floor(n/100), sisa=n%100;
+    if(ratus){ if(ratus===1) out+="seratus"; else out+=satu[ratus]+" ratus"; if(sisa) out+=" "; }
+    if(sisa){
+      if(sisa<12) out += (sisa===11 ? "sebelas" : satu[sisa]);
+      else if(sisa<20) out += satu[sisa-10]+" belas";
+      else { const puluh=Math.floor(sisa/10), satuD=sisa%10; out+=satu[puluh]+" puluh"; if(satuD) out+=" "+satu[satuD]; }
+    }
+    return out;
+  }
+  const tingkat=["","ribu","juta","miliar","triliun"];
+  let res="", idx=0;
+  while(angka>0){
+    const chunk = angka % 1000;
+    if(chunk){
+      let seg = bawah1000(chunk);
+      if(idx===1 && chunk===1) seg="seribu";
+      res = seg + (tingkat[idx] ? " "+tingkat[idx] : "") + (res ? " "+res : "");
+    }
+    angka = Math.floor(angka/1000); idx++;
+  }
+  return res.trim();
+}
+
+/* ------------------ Tabs (main) ------------------ */
+const tabButtons = Array.from(document.querySelectorAll('.tab-btn'));
+const tabContents = Array.from(document.querySelectorAll('.tab-content'));
+tabButtons.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    tabButtons.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const target = btn.getAttribute('data-tab');
+    tabContents.forEach(c=>{
+      if(c.id === 'tab-'+target){ c.classList.add('show'); c.setAttribute('aria-hidden','false'); }
+      else { c.classList.remove('show'); c.setAttribute('aria-hidden','true'); }
+    });
+    if(target==='madliyah') updateHakIstriMadliyah();
+  });
+});
+
+/* ------------------ Mut'ah sub-tabs (fade) ------------------ */
+const mutahBtns = Array.from(document.querySelectorAll('.mutah-subbtn'));
+mutahBtns.forEach(b=>{
+  b.addEventListener('click', ()=>{
+    mutahBtns.forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    const sub = b.getAttribute('data-sub');
+    document.querySelectorAll('.mutah-panel').forEach(p=>{
+      if(p.id === sub){ p.classList.add('show'); } else { p.classList.remove('show'); }
+    });
+  });
+});
+
+/* ------------------ Sync sliders / numbers ------------------ */
+function syncPercent(role){ const slider=document.getElementById(role); const num=document.getElementById(role+"Num"); if(num) num.value=slider.value; }
+function syncSlider(role){ const slider=document.getElementById(role); const num=document.getElementById(role+"Num"); if(num) slider.value=num.value; }
+
+/* ------------------ Format inputs ------------------ */
+document.getElementById("penghasilan").addEventListener('input', (e)=>{
+  let v = onlyDigits(e.target.value);
+  if(!v){ e.target.value=''; return; }
+  e.target.value = v.replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+});
+
+/* nafkah anak visual formatting (keamanan parse via parseRupiah) */
+const nafkahAnakEl = document.getElementById("nafkahAnak");
+nafkahAnakEl.addEventListener('input', (e)=>{
+  let v = onlyDigits(e.target.value);
+  if(!v){ e.target.value=''; return; }
+  e.target.value = v.replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+});
+
+/* ------------------ Global values ------------------ */
+let globalIstriRp = 0;
+
+/* ------------------ Iddah calculation (unchanged) ------------------ */
+function hitungPembagian(){
+  const penghasilan = parseRupiah(document.getElementById("penghasilan").value);
+  if(!penghasilan || penghasilan <= 0){ alert("Masukkan penghasilan valid!"); return; }
+
+  const suamiPct = Number(document.getElementById("suami").value)||0;
+  const istriPct  = Number(document.getElementById("istri").value)||0;
+  const anakPct   = Number(document.getElementById("anak").value)||0;
+  const savingPct = Number(document.getElementById("saving").value)||0;
+  const totalPct = suamiPct + istriPct + anakPct + savingPct;
+  const warn = document.getElementById("warningText");
+  if(totalPct !== 100){ warn.style.display='block'; return; } else warn.style.display='none';
+
+  const suamiRp = Math.round(penghasilan * suamiPct / 100);
+  globalIstriRp = Math.round(penghasilan * istriPct / 100);
+  const anakRp = Math.round(penghasilan * anakPct / 100);
+  const savingRp = Math.round(penghasilan * savingPct / 100);
+  const nafkahIddah = Math.round(globalIstriRp * 3);
+
+  // show animated numbers placeholders
+  const hasilEl = document.getElementById("hasil");
+  hasilEl.innerHTML = `
+    <div style="display:flex;gap:14px;flex-wrap:wrap">
+      <div style="min-width:140px"><strong>Suami</strong><div id="anim-suami">${formatRupiah(0)}</div></div>
+      <div style="min-width:160px"><strong>Istri (hak)</strong><div id="anim-istri">${formatRupiah(0)}</div></div>
+      <div style="min-width:140px"><strong>Anak</strong><div id="anim-anak">${formatRupiah(0)}</div></div>
+      <div style="min-width:140px"><strong>Saving</strong><div id="anim-saving">${formatRupiah(0)}</div></div>
+    </div>
+  `;
+  animateCurrency('anim-suami', suamiRp, 700);
+  animateCurrency('anim-istri', globalIstriRp, 700);
+  animateCurrency('anim-anak', anakRp, 700);
+  animateCurrency('anim-saving', savingRp, 700);
+
+  const iddahEl = document.getElementById("nafkahIddah");
+  iddahEl.innerHTML = `💰 Nafkah Iddah (3× hak istri): <span id="anim-iddah">${formatRupiah(0)}</span><br><em style="font-style:normal;color:#bfe9bf" id="terbilang-iddah"></em>`;
+  animateCurrency('anim-iddah', nafkahIddah, 900, ()=>{
+    document.getElementById('terbilang-iddah').innerText = terbilang(nafkahIddah) + " rupiah";
+  });
+
+  // update nafkah anak input (formatted) if not manual
+  if(!document.getElementById("manualAnak").checked){
+    document.getElementById("nafkahAnak").value = String(Math.round(anakRp)).replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+  }
+
+  // update hak istri & mutah defaults
+  updateHakIstriMadliyah();
+  syncPenghasilanMutah();
+  syncPenghasilanMutah2();
+}
+
+/* ------------------ animate currency ------------------ */
+function animateCurrency(elId, targetValue, duration = 800, callback){
+  const el = document.getElementById(elId); if(!el) return;
+  const start = 0; const end = Number(targetValue) || 0; const startTime = performance.now();
+  function step(now){
+    const t = Math.min(1, (now - startTime)/duration);
+    const progress = 1 - (1 - t)*(1 - t); // easeOutQuad
+    const value = Math.round(start + (end - start)*progress);
+    el.innerText = formatRupiah(value);
+    if(t < 1) requestAnimationFrame(step);
+    else { el.innerText = formatRupiah(end); if(typeof callback === 'function') callback(); }
+  }
+  requestAnimationFrame(step);
+}
+
+/* ------------------ Madliyah ------------------ */
+function updateHakIstriMadliyah(){ document.getElementById("hakIstriMadliyah").value = formatRupiah(globalIstriRp); }
+function hitungMadliyah(){ 
+  if(!globalIstriRp || globalIstriRp <= 0){ alert("Hitung Nafkah Iddah terlebih dahulu agar hak istri tersedia."); return; }
+  const bulan = Number(document.getElementById("bulanMadliyah").value) || 0;
+  if(!bulan || bulan <= 0){ alert("Masukkan jumlah bulan yang dilalaikan."); return; }
+  const total = Math.round(globalIstriRp * bulan);
+  const out = document.getElementById("hasilMadliyah");
+  out.innerHTML = `<div id="anim-madliyah">${formatRupiah(0)}</div><div id="tb-madliyah" style="color:#bfe9bf;margin-top:6px"></div>`;
+  animateCurrency('anim-madliyah', total, 900, ()=>{
+    document.getElementById('tb-madliyah').innerText = terbilang(total) + " rupiah";
+  });
+}
+
+/* ------------------ Nafkah Anak (fixed parsing + formatting) ------------------ */
+function toggleManualAnak(){
+  const cb = document.getElementById("manualAnak");
+  const input = document.getElementById("nafkahAnak");
+  input.readOnly = !cb.checked;
+  if(!cb.checked){
+    const penghasilan = parseRupiah(document.getElementById("penghasilan").value) || 0;
+    const anakPct = Number(document.getElementById("anak").value) || 0;
+    const anakRp = Math.round(penghasilan * anakPct / 100);
+    input.value = String(anakRp).replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+  }
+}
+function hitungNafkahAnak(){
+  const awalBulanan = Math.round( parseRupiah( document.getElementById("nafkahAnak").value ) || 0 );
+  if(!awalBulanan || awalBulanan <= 0){ alert("Masukkan nominal nafkah anak per bulan (atau hitung dari Iddah)."); return; }
+  const kenaikanPct = Number(document.getElementById("kenaikan").value) / 100 || 0.10;
+  const tahun = Math.max(1, Math.floor(Number(document.getElementById("tahun").value) || 1));
+  let html = `<table><thead><tr><th>Tahun</th><th>Nafkah (bulan pertama)</th><th>Total Setahun</th></tr></thead><tbody>`;
+  for(let i=1;i<=tahun;i++){
+    const month1 = Math.round( awalBulanan * Math.pow(1 + kenaikanPct, i-1) );
+    const totalYear = Math.round(month1 * 12);
+    html += `<tr><td>${i}</td><td data-val="${month1}">${formatRupiah(month1)}</td><td>${formatRupiah(totalYear)}</td></tr>`;
+  }
+  html += `</tbody></table>`;
+  document.getElementById("hasilAnak").innerHTML = html;
+  const firstCell = document.querySelector('#hasilAnak table tbody tr:first-child td[data-val]');
+  if(firstCell){ const val = Number(firstCell.getAttribute('data-val')) || 0; firstCell.innerHTML = `<span id="anim-anak-year1">${formatRupiah(0)}</span>`; animateCurrency('anim-anak-year1', val, 900); }
+}
+
+/* ------------------ Mut'ah 1 (rumus lama) ------------------ */
+function rekomendasiFMutah(){
+  const T = Number(document.getElementById('t').value) || 0;
+  let s='';
+  if(T<5) s="💡 Disarankan F antara 1,0 – 1,2 (<5 tahun)";
+  else if(T<=10) s="💡 Disarankan F antara 1,3 – 1,4 (5–10 tahun)";
+  else if(T<=15) s="💡 Disarankan F antara 1,5 – 1,6 (11–15 tahun)";
+  else if(T<=20) s="💡 Disarankan F antara 1,7 – 1,8 (16–20 tahun)";
+  else s="💡 Disarankan F antara 1,9 – 2,0 (>20 tahun)";
+  document.getElementById('rekomendasiF1').textContent = s;
+}
+function togglePenghasilanMutah(){
+  const cb = document.getElementById("manualPenghasilanMutah");
+  const p = document.getElementById("p");
+  p.readOnly = !cb.checked;
+  if(!cb.checked) syncPenghasilanMutah();
+}
+function syncPenghasilanMutah(){
+  const penghasilan = parseRupiah(document.getElementById("penghasilan").value) || 0;
+  document.getElementById("p").value = penghasilan ? penghasilan.toLocaleString('id-ID') : "";
+}
+function hitungMutah1(){
+  const P = parseFloat( String(parseRupiah(document.getElementById("p").value)) ) || 0;
+  const T = Number(document.getElementById("t").value) || 0;
+  const F = parseFloat(document.getElementById("f").value);
+  const K = parseFloat(document.getElementById("k").value);
+  const out = document.getElementById("hasilMutah1");
+  const rumus = document.getElementById("rumusMutah1");
+  if(!P || !T || isNaN(F) || isNaN(K)){ out.innerText="⚠️ Lengkapi data Mut'ah 1."; return; }
+  // rumus lama (persis): M = P * ((F + 0.1*T) - K)
+  const M = Math.round( P * ((F + (0.1 * T)) - K) );
+  out.innerHTML = `<div id="anim-mutah1">${formatRupiah(0)}</div><div id="tb-mutah1" style="color:#bfe9bf;margin-top:6px"></div>`;
+  animateCurrency('anim-mutah1', M, 900, ()=>{ document.getElementById('tb-mutah1').innerText = terbilang(M) + " rupiah"; });
+  rumus.innerText = `Rumus: M = P × (F + 0,10×T − K)`;
+}
+
+/* ------------------ Mut'ah 2 (rumus baru kamu) ------------------ */
+function rekomendasiFMutah2(){
+  const T = Number(document.getElementById('t2').value) || 0;
+  let s='';
+  if(T<5) s="💡 Disarankan F antara 1,0 – 1,2 (<5 tahun)";
+  else if(T<=10) s="💡 Disarankan F antara 1,3 – 1,4 (5–10 tahun)";
+  else if(T<=15) s="💡 Disarankan F antara 1,5 – 1,6 (11–15 tahun)";
+  else if(T<=20) s="💡 Disarankan F antara 1,7 – 1,8 (16–20 tahun)";
+  else s="💡 Disarankan F antara 1,9 – 2,0 (>20 tahun)";
+  document.getElementById('rekomendasiF2').textContent = s;
+}
+function togglePenghasilanMutah2(){
+  const cb = document.getElementById("manualPenghasilanMutah2");
+  const p = document.getElementById("p2");
+  p.readOnly = !cb.checked;
+  if(!cb.checked) syncPenghasilanMutah2();
+}
+function syncPenghasilanMutah2(){
+  const penghasilan = parseRupiah(document.getElementById("penghasilan").value) || 0;
+  document.getElementById("p2").value = penghasilan ? penghasilan.toLocaleString('id-ID') : "";
+}
+function hitungMutah2(){
+  const P = parseFloat( String(parseRupiah(document.getElementById("p2").value)) ) || 0;
+  const T = Number(document.getElementById("t2").value) || 0;
+  const F = parseFloat(document.getElementById("f2").value);
+  const A = parseFloat(document.getElementById("a2").value);
+  const K = parseFloat(document.getElementById("k2").value);
+  const out = document.getElementById("hasilMutah2");
+  const rumus = document.getElementById("rumusMutah2");
+  if(!P || !T || isNaN(F) || isNaN(A) || isNaN(K)){ out.innerText="⚠️ Lengkapi data Mut'ah 2."; return; }
+  // rumus baru: M = P * ((F + 0.1*T + A) - K)
+  const M = Math.round( P * ((F + (0.1 * T) + A) - K) );
+  out.innerHTML = `<div id="anim-mutah2">${formatRupiah(0)}</div><div id="tb-mutah2" style="color:#bfe9bf;margin-top:6px"></div>`;
+  animateCurrency('anim-mutah2', M, 900, ()=>{ document.getElementById('tb-mutah2').innerText = terbilang(M) + " rupiah"; });
+  rumus.innerText = `Rumus: M = P × (F + 0,10×T + A − K)`;
+}
+
+/* ------------------ Mutah format helpers (common) ------------------ */
+function formatInputRupiah(el){ let v=onlyDigits(el.value); el.value = v ? v.replace(/\B(?=(\d{3})+(?!\d))/g,'.') : ""; }
+function parseRupiahMutah(v){ if(!v) return 0; return parseFloat(v.toString().replace(/\./g,'').replace(',','.')) || 0; }
+
+/* ------------------ Init ------------------ */
+window.addEventListener('load', ()=>{
+  // fill t dropdowns
+  const tSelect = document.getElementById('t');
+  const tSelect2 = document.getElementById('t2');
+  for(let i=1;i<=70;i++){ let o=document.createElement('option'); o.value=i; o.text = i+" tahun"; tSelect.appendChild(o); tSelect2.appendChild(o.cloneNode(true)); }
+  // sync mutah p defaults from penghasilan
+  syncPenghasilanMutah();
+  syncPenghasilanMutah2();
+});
+</script>
+</body>
+</html>
